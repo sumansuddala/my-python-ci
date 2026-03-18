@@ -10,20 +10,21 @@ on:
         description: "Environment"
         required: true
         default: "qa"
+        type: choice
         options:
-          - "qa"
-          - "stage"
-          - "prod"
+          - qa
+          - stage
+          - prod
 
   schedule:
-    - cron: '*/1 * * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     env:
-      ENVIRONMENT: ${{ github.event.inputs.environment }}
+      ENVIRONMENT: ${{ github.event.inputs.environment || 'qa' }}
 
     steps:
       - name: Checkout Code
@@ -34,13 +35,8 @@ jobs:
         with:
           python-version: '3.10'
 
-      # - name: Install Dependencies
-      #   run: pip install -r requirements.txt
+      - name: Print Environment
+        run: echo "Environment is $ENVIRONMENT"
 
       - name: Run Tests
         run: pytest
-
-      # - name: Use Secret Example
-      #   run: echo "Secret loaded"
-        # env:
-        #   PASSWORD: ${{ secrets.TEST_PASSWORD }}
