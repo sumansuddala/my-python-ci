@@ -16,7 +16,7 @@ on:
           - "prod"
 
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '*/1 * * * *'
 
 jobs:
   test:
